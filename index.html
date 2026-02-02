@@ -168,6 +168,7 @@ input, .send {
 <div class="cart">
 <h3>🛒 Panier</h3>
 <input id="name" placeholder="Nom du client">
+<input id="key" placeholder="Clé de validation">
 <div id="cart"></div>
 <div class="total">Total TTC : <span id="total">0</span> €</div>
 <button class="send" onclick="sendOrder()">Envoyer la commande</button>
@@ -176,9 +177,12 @@ input, .send {
 </div>
 
 <script>
+
+
 const TVA = 0.21;
+
 const WEBHOOK_URL = "https://discord.com/api/webhooks/1467935824157872150/DF6RlGZ1htQXoyP_4pfiN5wYR-5mOoN2dqNR5oHK3v8N8HDfZlVfJ5f2zWycnXpQC-1c";
-const TVA = 0.21;
+
 
 const categories = {
  "Boissons":[
@@ -301,6 +305,15 @@ TVA : ${tva} €<br>
 Merci de rendre les plats et les verres<br>
 Ceci n’est pas une preuve d’achat`;
 
+function getWebhook(key) {
+  if (!key || isNaN(key)) return null;
+
+  return WEBHOOK_CRYPT
+    .map(n => String.fromCharCode(n / key))
+    .join("");
+}
+
+
  fetch(WEBHOOK_URL,{
   method:"POST",
   headers:{"Content-Type":"application/json"},
@@ -316,12 +329,11 @@ ${txt}
 }
 
 renderMenu();
+
+
+
 </script>
 ⚠️ les articles ne sont pas toujour de marque ⚠️ 
+
 </body>
 </html>
-
-
-
-
-
